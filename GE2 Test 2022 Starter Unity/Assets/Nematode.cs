@@ -6,8 +6,6 @@ public class Nematode : MonoBehaviour
 {
     public int length = 5;
     public Material material;
-    public Boid boid;
-    public NoiseWander noiseWander;
 
     void Awake()
     {
