@@ -7,6 +7,7 @@ public class Nematode : MonoBehaviour
     public int length = 5;
     public Material material;
 
+
     void Awake()
     {
         for (int i = 0; i < length; i++)
@@ -22,8 +23,12 @@ public class Nematode : MonoBehaviour
         }
         GameObject onenematode = this.transform.GetChild(0).gameObject;
         onenematode.AddComponent<Boid>();
-        onenematode.AddComponent<NoiseWander>();
+        onenematode.AddComponent<NoiseWander>().axis = NoiseWander.Axis.Horizontal;
+        onenematode.AddComponent<NoiseWander>().axis = NoiseWander.Axis.Vertical;
         onenematode.AddComponent<ObstacleAvoidance>();
+        onenematode.AddComponent<Constrain>();
+        
+
 
     }
 
@@ -31,12 +36,11 @@ public class Nematode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
