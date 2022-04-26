@@ -25,12 +25,11 @@ public class NematodeSchool : MonoBehaviour
         StartCoroutine(spawnHealth());
 
     }
-    
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
     IEnumerator spawnHealth()
     {
