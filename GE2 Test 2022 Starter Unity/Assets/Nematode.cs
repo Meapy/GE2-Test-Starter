@@ -8,11 +8,12 @@ public class Nematode : MonoBehaviour
     public Material material;
 
 
+
     void Awake()
     {
         length = UnityEngine.Random.Range(25, 50);
         for (int i = 0; i < length; i++)
-        {             
+        {
             GameObject nemantode = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             nemantode.transform.position = new Vector3(0, 0, -i);
             float width = 1.5f - (i / (float)length);
@@ -28,9 +29,7 @@ public class Nematode : MonoBehaviour
         onenematode.AddComponent<NoiseWander>().axis = NoiseWander.Axis.Vertical;
         onenematode.AddComponent<ObstacleAvoidance>();
         onenematode.AddComponent<Constrain>();
-        
-
-
+        onenematode.AddComponent<Seek>();
     }
 
 
@@ -43,15 +42,31 @@ public class Nematode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        ///get the nematode to seek towards the health object
+        GameObject targetHealth = GameObject.FindGameObjectWithTag("Health");
+        if (targetHealth != null)
+        {
+            Seek seek = this.transform.GetChild(0).GetComponent<Seek>();
+            seek.targetGameObject = targetHealth;
+            this.transform.GetChild(0).GetComponent<NoiseWander>().enabled = false;
+            GameObject[] healths = GameObject.FindGameObjectsWithTag("Health");
+            foreach (GameObject health in healths)
+            {
+                if (Vector3.Distance(health.transform.position, this.transform.position) < 10)
+                {
+                    Destroy(health);
+                    targetHealth = null;
+                }
+            }
+
+        }
+
     }
     IEnumerator changeColor()
     {
         for (int i = 0; i < length; i++)
         {
-            //get the colour of the nematode
             Color color = this.transform.GetChild(i).GetComponent<Renderer>().material.color;
-            // set the colour to the previous colour
             if (i > 0)
             {
                 this.transform.GetChild(i - 1).GetComponent<Renderer>().material.color = color;
@@ -62,9 +77,9 @@ public class Nematode : MonoBehaviour
             }
 
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         StartCoroutine(changeColor());
-        
+
     }
 
 }

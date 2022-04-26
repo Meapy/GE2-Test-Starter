@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NoiseWander : SteeringBehaviour
 {
-    public float frequency = 0.5f;
-    public float radius = 15.0f;
+    public float frequency = .5f;
+    public float radius = 5.0f;
 
     public float theta = 0;
     public float amplitude = 160;
@@ -20,7 +20,7 @@ public class NoiseWander : SteeringBehaviour
 
     public void Start()
     {
-        theta = Random.Range(0.0f, 10.0f);
+        theta = Random.Range(5.0f, 15.0f);
     }
 
     private void OnDrawGizmos()
