@@ -10,8 +10,9 @@ public class Nematode : MonoBehaviour
 
     void Awake()
     {
+        length = UnityEngine.Random.Range(10, 25);
         for (int i = 0; i < length; i++)
-        {
+        {             
             GameObject nemantode = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             nemantode.transform.position = new Vector3(0, 0, -i);
             float width = 1.5f - (i / (float)length);
