@@ -5,12 +5,23 @@ using UnityEngine;
 public class Nematode : MonoBehaviour
 {
     public int length = 5;
-
     public Material material;
+    public Boid boid;
 
     void Awake()
     {
-        // Put your code here!
+        for (int i = 0; i < length; i++)
+        {
+            GameObject nemantode = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            nemantode.transform.position = new Vector3(0, 0, -i);
+            float width = 1.5f - (i / (float)length);
+            float height = 1.5f - (i / (float)length);
+            nemantode.transform.localScale = new Vector3(width, height, 1);
+            nemantode.transform.parent = this.transform;
+            nemantode.GetComponent<Renderer>().material = material;
+            nemantode.GetComponent<Renderer>().material.color = Color.HSVToRGB(i / (float)length, 1, 1);
+        }
+        boid = this.transform.GetChild(0).GetComponent<Boid>();
     }
 
 
