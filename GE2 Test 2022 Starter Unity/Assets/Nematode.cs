@@ -42,20 +42,40 @@ public class Nematode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ///get the nematode to seek towards the health object
-        GameObject targetHealth = GameObject.FindGameObjectWithTag("Health");
-        if (targetHealth != null)
+        //get all the health objects
+        GameObject[] healths = GameObject.FindGameObjectsWithTag("Health");
+        //find the closest health object
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+        foreach (GameObject health in healths)
+        {
+            Vector3 diff = health.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = health;
+                distance = curDistance;
+            }
+        }
+        //find the closet
+        if (closest != null)
         {
             Seek seek = this.transform.GetChild(0).GetComponent<Seek>();
-            seek.targetGameObject = targetHealth;
+            seek.targetGameObject = closest;
             this.transform.GetChild(0).GetComponent<NoiseWander>().enabled = false;
-            GameObject[] healths = GameObject.FindGameObjectsWithTag("Health");
+            this.transform.GetChild(0).GetComponent<ObstacleAvoidance>().enabled = false;
             foreach (GameObject health in healths)
             {
-                if (Vector3.Distance(health.transform.position, this.transform.position) < 10)
+                //find the distance between the nematode and the health
+                float distanceCol = Vector3.Distance(this.transform.GetChild(0).position, health.transform.position);
+                print(distanceCol);
+                if (distanceCol <= 2)
                 {
                     Destroy(health);
-                    targetHealth = null;
+                    closest = null;
+                    this.transform.GetChild(0).GetComponent<NoiseWander>().enabled = true;
+                    this.transform.GetChild(0).GetComponent<ObstacleAvoidance>().enabled = true;
                 }
             }
 
