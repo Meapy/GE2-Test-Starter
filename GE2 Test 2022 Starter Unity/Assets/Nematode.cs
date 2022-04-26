@@ -10,7 +10,7 @@ public class Nematode : MonoBehaviour
 
     void Awake()
     {
-        length = UnityEngine.Random.Range(10, 25);
+        length = UnityEngine.Random.Range(25, 50);
         for (int i = 0; i < length; i++)
         {             
             GameObject nemantode = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -37,11 +37,34 @@ public class Nematode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(changeColor());
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
+    IEnumerator changeColor()
+    {
+        for (int i = 0; i < length; i++)
+        {
+            //get the colour of the nematode
+            Color color = this.transform.GetChild(i).GetComponent<Renderer>().material.color;
+            // set the colour to the previous colour
+            if (i > 0)
+            {
+                this.transform.GetChild(i - 1).GetComponent<Renderer>().material.color = color;
+            }
+            else
+            {
+                this.transform.GetChild(length - 1).GetComponent<Renderer>().material.color = color;
+            }
+
+        }
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(changeColor());
+        
+    }
+
 }
