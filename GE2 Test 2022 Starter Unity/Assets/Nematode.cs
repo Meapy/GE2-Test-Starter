@@ -7,6 +7,7 @@ public class Nematode : MonoBehaviour
     public int length = 5;
     public Material material;
     public Boid boid;
+    public NoiseWander noiseWander;
 
     void Awake()
     {
@@ -21,7 +22,11 @@ public class Nematode : MonoBehaviour
             nemantode.GetComponent<Renderer>().material = material;
             nemantode.GetComponent<Renderer>().material.color = Color.HSVToRGB(i / (float)length, 1, 1);
         }
-        boid = this.transform.GetChild(0).GetComponent<Boid>();
+        GameObject onenematode = this.transform.GetChild(0).gameObject;
+        onenematode.AddComponent<Boid>();
+        onenematode.AddComponent<NoiseWander>();
+        onenematode.AddComponent<ObstacleAvoidance>();
+
     }
 
 
